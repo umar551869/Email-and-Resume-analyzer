@@ -1,183 +1,129 @@
-📧 Email Classifier & Resume Analyzer
-A Streamlit-based web application that provides two key functionalities:
+NLP Applications Dashboard
+Overview
+This Streamlit-based web application provides two powerful NLP-driven tools: Email Spam Detection and Resume Recommendation System. The application leverages machine learning models (SVM and DistilBERT) for email classification and a custom scoring algorithm for resume analysis, with features like email sending, interactive visualizations, and bulk actions for candidate management.
+Features
+1. Email Spam Detection
 
-Email Spam Classifier using machine learning (Support Vector Machines).
+Functionality: Classifies emails as spam or ham using either Support Vector Machines (SVM) with linear/polynomial kernels or a DistilBERT model.
+Input: Accepts a zip file containing email text files or uses sample data.
+Process:
+Extracts frequent words using NLTK for text preprocessing (removing punctuation, stopwords, and lemmatization).
+Creates frequency-based feature vectors for SVM models.
+Preprocesses text with DistilBERT tokenizer for transformer-based classification.
+Trains and evaluates models with customizable parameters (e.g., polynomial degree, minimum word frequency).
 
-Resume Analyzer for ranking candidates based on skills, experience, certifications, and more.
-
-Additional features include email composition, calendar invite generation, and email history logging.
-
-🔍 Features
-1. Email Spam Classifier
-Functionality: Classifies emails as Spam or Ham using an SVM model.
-
-Input: Upload a .zip file containing .txt email files.
-
-Processing:
-
-Text cleaning using NLTK (stopword removal, punctuation stripping, lemmatization).
-
-Frequency-based feature vector creation.
-
-Model training using Support Vector Machine (SVM).
 
 Output:
+Displays confusion matrices, precision, recall, and accuracy metrics.
+Visualizes word frequencies and model performance with Plotly charts.
+Allows testing new emails with trained models and shows key words influencing predictions.
+Includes an interactive analysis canvas for custom visualizations.
 
-Confusion matrix, accuracy, precision, and recall.
 
-Pie chart of spam vs. ham distribution.
 
-Bar charts for top 10 spam and ham words.
+2. Resume Recommendation System
 
-2. Resume Analyzer
-Functionality: Ranks resumes based on:
+Functionality: Recommends top candidates based on skills, experience, certifications, and project count.
+Input: Accepts a CSV file with columns like Name, Emails, Job Role, Skills, Certifications, Education, Experience, Projects Count, Salary Expectation, or uses sample data.
+Process:
+Normalizes skills and certifications for consistent scoring.
+Allows users to set criteria (desired skills, minimum experience, certifications, number of candidates).
+Scores candidates using a weighted formula (50% skills, 20% experience, 20% projects, 10% certifications).
+Supports email configuration for sending personalized invitation emails via SMTP.
 
-Skills
-
-Experience
-
-Certifications
-
-Project Count
-
-Input: Upload a .csv file with the following columns:
-
-scss
-Copy
-Edit
-Name, Job Role, Experience (Years), Skills, Certifications, Projects Count, Salary Expectation ($)
-(Sample data also available in-app.)
-
-Processing:
-
-Normalizes skills and certifications.
-
-Allows user-defined criteria for:
-
-Desired skills
-
-Minimum experience
-
-Required certifications
-
-Number of top candidates to show
-
-Computes a custom match score per candidate.
 
 Output:
+Displays ranked candidates with match scores.
+Visualizes candidate scores and salary vs. experience with Plotly charts.
+Shows detailed profiles for top candidates, including skill match analysis.
+Enables bulk actions like sending emails or exporting candidate profiles.
+Collects user feedback to improve the system.
 
-Ranked list of candidates.
 
-Interactive Plotly charts:
 
-Candidate score visualization
+Installation
+Prerequisites
 
-Salary vs. Experience
-
-Skill match analysis
-
-Simulated email sending to selected candidates.
-
-Downloadable .ics calendar invites for interview scheduling.
-
-3. Email History
-Functionality: Logs and displays emails sent via the Resume Analyzer.
-
-Output:
-
-Table with recipient, subject, candidate name, and timestamp.
-
-Email activity chart (by date).
-
-Option to clear history.
-
-⚙️ Installation
-✅ Prerequisites
 Python 3.8+
-
 Streamlit
+PyTorch and Transformers (for DistilBERT)
+Required Python packages (listed in requirements.txt)
 
-📦 Required Packages
-Install from requirements.txt:
+Steps
 
-bash
-Copy
-Edit
-pip install -r requirements.txt
-📥 Download NLTK Data
-python
-Copy
-Edit
-import nltk
+Clone the repository:git clone <repository-url>
+cd nlp-applications-dashboard
+
+
+Install dependencies:pip install -r requirements.txt
+
+
+Download required NLTK data:import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
-🚀 Running the App
-bash
-Copy
-Edit
-streamlit run app.py
-📁 File Structure
-bash
-Copy
-Edit
+
+
+Run the Streamlit app:streamlit run app.py
+
+
+
+File Structure
 ├── app.py                  # Main Streamlit application
 ├── requirements.txt        # Python dependencies
-├── temp/                   # Temporary directory for file processing
-│   ├── emails/             # Extracted email files
-│   ├── wordslist.csv       # Word frequency list
-│   └── frequency.csv       # Email feature vectors
+├── feedback.csv            # User feedback log (generated after feedback submission)
 └── README.md               # Project documentation
-🧠 Usage
-📨 Email Spam Classifier
-Go to "Email Spam Classifier" from the sidebar.
 
-Upload a .zip file containing .txt email files.
+Usage
 
-View classification results and insights.
+Launch the App: Run streamlit run app.py to start the application.
+Navigate: Use the sidebar to select between "Home", "Email Spam Detection", or "Resume Recommendation".
+Email Spam Detection:
+Upload a zip file with email texts or use sample data.
+Process emails to extract features and train models (Linear SVM, Polynomial SVM, or DistilBERT).
+View performance metrics, visualizations, and test new emails.
 
-👩‍💼 Resume Analyzer
-Go to "Resume Analyzer".
 
-Upload a resume .csv file or use sample data.
+Resume Recommendation:
+Upload a CSV file or use sample data.
+Configure email settings in the sidebar (SMTP server, port, credentials).
+Set criteria (skills, experience, certifications) and find top candidates.
+View candidate profiles, send invitation emails, perform bulk actions, and provide feedback.
 
-Set filtering criteria (skills, experience, certifications).
 
-View ranked candidates, send acceptance emails, and download interview invites.
+Feedback: Submit feedback and ratings to improve the recommendation system.
 
-📚 Email History
-View previously sent emails.
+Dependencies
 
-See email activity charts.
+streamlit: Web interface
+pandas, numpy: Data processing
+scikit-learn: SVM models
+nltk: Text preprocessing
+torch, transformers: DistilBERT model
+plotly: Interactive visualizations
+smtplib: Email sending
+tqdm: Progress bars
+zipfile: ZIP file handling
 
-Option to clear the history.
+Notes
 
-🛠 Dependencies
-Library	Use
-streamlit	Web app interface
-pandas, numpy	Data manipulation
-scikit-learn	Machine learning (SVM)
-nltk	Natural Language Processing
-plotly	Interactive visualizations
-zipfile, base64	File handling & calendar invites
+Email Sending: Requires valid SMTP server settings. The application supports sending personalized emails but needs proper configuration.
+DistilBERT: Optimized for speed with a shorter max_length (64), fewer epochs (1), and smaller batch size (8), which may slightly impact accuracy.
+Sample Data: Provided for both email and resume functionalities to test the app without external data.
+Error Handling: Comprehensive logging is implemented to track errors during file processing, model training, and email sending.
+Resume CSV: Must include required columns; missing columns will trigger an error. Email columns are dynamically detected (case-insensitive).
+Feedback: Stored in feedback.csv for later analysis.
 
-📌 Notes
-The email sending functionality is simulated and logs emails locally.
+Limitations
 
-Email files must include "spam" in the filename for spam classification.
+Email classification assumes filenames contain "spam" for spam emails.
+DistilBERT runs on CPU to avoid CUDA issues, which may slow training for large datasets.
+Email sending is SMTP-dependent and may fail with incorrect credentials or server issues.
+Temporary files are not automatically cleaned; manual cleanup may be needed for large datasets.
 
-Resume CSVs must contain all required columns.
-
-Temporary files are saved in temp/ and should be periodically cleared.
-
-📄 License
+License
 This project is licensed under the MIT License.
+Acknowledgments
 
-🙏 Acknowledgments
-Built with ❤️ using Streamlit
-
-Email classification using Scikit-learn
-
-NLP powered by NLTK
-
-Visualizations with Plotly
-
+Built with Streamlit, Scikit-learn, and Hugging Face Transformers.
+Uses NLTK for text preprocessing and Plotly for visualizations.
+Inspired by real-world NLP applications for spam detection and recruitment.
